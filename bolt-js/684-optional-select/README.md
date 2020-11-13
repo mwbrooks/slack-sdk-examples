@@ -10,6 +10,7 @@
 ## Usage
 
 In Slack, type `/slash-command`:
+<img src="https://github.com/mwbrooks/slack-sdk-examples/raw/main/bolt-js/684-optional-select/screenshot.png" />
 
 
 ## Install
