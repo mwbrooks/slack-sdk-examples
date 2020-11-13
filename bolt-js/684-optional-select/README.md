@@ -1,14 +1,11 @@
-# External Select of Countries ⚡️ Bolt for JavaScript
-> How to use an external select to display a list of countries
+# Optional select menu with validation ⚡️ Bolt for JavaScript
+> How to use an optional select menu with validation
 
 ## Slack app settings
 
 - Slash commands
   - Command: `/slash-command`
   - Request URL: `https://xxx.ngrok.io/slack/events`
-- Interactivity & Shortcuts
-  - Select Menu
-    - Options Load URL: `https://xxx.ngrok.io/slack/events`
 
 ## Usage
 
