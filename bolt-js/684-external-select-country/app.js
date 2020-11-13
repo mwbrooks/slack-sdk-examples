@@ -82,15 +82,15 @@ app.options('external_action', async ({ options, ack }) => {
     // Collect the countries into an options array to send in Slack ack response
     matchedCountries.forEach((country) => {
       ackOptions.push({
-        "text": {
-          "type": "plain_text",
-          "text": country.name
+        'text': {
+          'type': 'plain_text',
+          'text': country.name
         },
-        "value": country.value
+        'value': country.value
       });
     });
     await ack({
-      "options": ackOptions
+      'options': ackOptions
     });
   } else {
     await ack();
