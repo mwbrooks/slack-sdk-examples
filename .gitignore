@@ -2,6 +2,10 @@
 node_modules/
 package-lock.json
 
+# python
+.env/
+.venv/
+
 # java
 .classPath
 .project

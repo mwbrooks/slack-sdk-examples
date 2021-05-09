@@ -16,7 +16,7 @@ module.exports = (app) => {
           callback_id: 'view_1',
           title: {
             type: 'plain_text',
-            text: 'Modal title'
+            text: 'Modal title is more than 24 characters and that is a problem so whatever'
           },
           blocks: [
             {
@@ -57,7 +57,7 @@ module.exports = (app) => {
       console.log(result);
     }
     catch (error) {
-      console.error(error);
+      console.error(JSON.stringify(error));
     }
   });
 };
