@@ -1,8 +1,11 @@
+import logging
 import json
 import os
 import re
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
+
+logging.basicConfig(level=logging.INFO)
 
 # Initializes your app with your bot token and signing secret
 app = App(
@@ -43,6 +46,23 @@ def slash_command(ack, client, say, command, body):
                       },
                       "min_query_length": 2 # Search after 2 characters (default: 3)
                     }
+                },
+                {
+                    "type": "section",
+                    "block_id": "section_2",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "Please another country"
+                    },
+                    "accessory": {
+                      "action_id": "external_action_2",
+                      "type": "external_select",
+                      "placeholder": {
+                        "type": "plain_text",
+                        "text": "Select another country"
+                      },
+                      "min_query_length": 2 # Search after 2 characters (default: 3)
+                    }
                 }
             ]
         }
@@ -60,17 +80,53 @@ def show_options(ack, body):
         if (re.match(body["value"], d["country"], re.I)):
             options.append({
                 "text": { "type": "plain_text", "text": d["country"] },
-                "value": d["country"]
+                "value": d["abbreviation"]
             })
 
     ack(options=options)
 
 
+@app.action("external_action")
+def handle_some_action(ack, body, logger):
+    ack()
+    logger.info(body)
+    logger.info(body["view"]["state"]["values"]["section_1"])
+
+
+# Example of responding to an external_select options request
+@app.options("external_action_2")
+def show_options(ack, body, logger):
+    logger.info("EXTERNAL_ACTION_2 - options")
+    logger.info(body["view"])
+    logger.info("---")
+
+    with open("countries.json") as f:
+      data = json.load(f)
+
+    options = list()
+    for d in data:
+        if (re.match(body["value"], d["country"], re.I)):
+            options.append({
+                "text": { "type": "plain_text", "text": d["country"] },
+                "value": d["abbreviation"]
+            })
+
+    ack(options=options)
+
+
+@app.action("external_action_2")
+def handle_some_action(ack, body, logger):
+    ack()
+    logger.info("EXTERNAL_ACTION_2 - action")
+    # logger.info(body)
+    logger.info(body["view"]["state"]["values"])
+    logger.info("---")
+
+
 @app.view("view_1")
 def handle_view_events(ack, body, logger):
     ack()
-    logger.info(body)
-
+    # logger.info(body)
 
 # Start your app
 if __name__ == "__main__":
