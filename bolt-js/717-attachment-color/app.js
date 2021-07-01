@@ -50,7 +50,6 @@ app.command('/echo', async ({ command, ack, say }) => {
 
   // Display attachment colors
   await say({
-    "channel": "D019KTNNK8B",
     "text": "Outer text",
     "attachments": [
       {

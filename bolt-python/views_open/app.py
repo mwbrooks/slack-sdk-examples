@@ -13,15 +13,35 @@ app = App(
     token=os.environ.get("SLACK_BOT_TOKEN")
 )
 
-@app.command("/slash-command")
-def slash_command(ack, client, say, command, body, logger):
+print("SLACK_BOT_TOKEN:", os.environ.get("SLACK_BOT_TOKEN"))
+
+@app.shortcut("file_bug_message")
+def open_modal(ack, shortcut, client, logger, respond, body):
     # Acknowledge the shortcut request
     ack()
+
+    print("body:", body)
+    respond({
+        "text": "hello",
+        "response_type": "ephemeral",
+        "thread_ts": body["message"]["ts"]
+    })
+
+
+# @app.command("/slash-command")
+# def slash_command(ack, client, say, command, body, logger):
+# The open_modal shortcut listens to a shortcut with the callback_id "open_modal"
+@app.shortcut("file_bug")
+def open_modal(ack, shortcut, client, logger, body):
+    # Acknowledge the shortcut request
+    ack()
+
+    print("body:", body)
 
     try:
         # Call the views_open method using the built-in WebClient
         api_response = client.views_open(
-            trigger_id=body["trigger_id"],
+            trigger_id=shortcut["trigger_id"],
             # A simple view payload for a modal
             view={
                 "title": {
